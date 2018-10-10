@@ -1,0 +1,61 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:context=".MainActivity" >
+
+
+    <EditText
+        android:id="@+id/textEditFuerInputParameter"
+        android:layout_width = "match_parent"
+        android:layout_height= "wrap_content"
+        android:inputType="number"
+        android:hint="@string/input_parameter_label"  />
+
+    <Button
+        android:id="@+id/buttonBerechnungImMainThread"
+        android:layout_width = "match_parent"
+        android:layout_height= "wrap_content"
+        android:layout_below="@id/textEditFuerInputParameter"
+        android:text="@string/button_mainthread_berechnung_label"  />
+
+    <Button
+        android:id="@+id/buttonBerechnungInOwnThread"
+        android:layout_width = "match_parent"
+        android:layout_height= "wrap_content"
+        android:layout_below="@id/buttonBerechnungImMainThread"
+        android:text="@string/button_ownthread_berechnung_label"  />
+
+
+    <Button
+        android:id="@+id/buttonBerechnungInAsyncTask"
+        android:layout_width = "match_parent"
+        android:layout_height= "wrap_content"
+        android:layout_below="@id/buttonBerechnungInOwnThread"
+        android:text="@string/button_asynctask_berechnung_label"  />
+
+
+    <TextView
+        android:id="@+id/textViewZumAnzeigen"
+        android:background="#fff0"
+        android:layout_width = "match_parent"
+        android:layout_height= "wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/buttonBerechnungInAsyncTask"
+        android:text="@string/textview_dummy_content" />
+
+</RelativeLayout>
+
+    <!--
+        <Button
+            android:id="@+id/buttonBerechnungInOwnThread"
+            android:layout_width = "match_parent"
+            android:layout_height= "wrap_content"
+            android:layout_below="@id/buttonBerechnungImMainThread"
+            android:text="@string/button_ownthread_berechnung_label"  />
+     -->

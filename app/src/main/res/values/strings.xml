@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">Langlaufende Operationen</string>
+
+    <string name="input_parameter_label">Hier Zahl eingeben (1 bis &#8230;)</string>
+    <string name="button_mainthread_berechnung_label">Berechnen im Main-Thread</string>
+    <string name="button_ownthread_berechnung_label">Berechnen in eigenem Thread</string>
+    <string name="button_asynctask_berechnung_label">Berechnen in AsyncTask</string>
+    <string name="textview_dummy_content">\n\n</string>
+
+</resources>
