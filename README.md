@@ -1,6 +1,6 @@
 # Android-App "Langlaufende Operation"
 
-App shows how to implement a long running operation so that it does not block the main thread.
+App shows how to implement a long running operation so that it does not block the main thread (prevention of error message "Application not Responding").
 
 <br>
 
