@@ -17,7 +17,8 @@ import android.widget.Toast;
  * App zur Demonstration was passiert, wenn ein Event-Handler zu lange
  * zur Abarbeitung braucht ... und was man dagegen tun kann, nämlich
  * das Auslagern von langlaufenden Operation in einen Hintergrund-Thread.
- * <br>
+ * <br><br>
+ *
  * Mit der App <i>Fortschrittsanzeige</i> gibt es eine Variante dieser
  * App, die die Berechnung mit einer Fortschrittsanzeige durchführt.
  * <br><br>
@@ -144,9 +145,9 @@ public class MainActivity extends Activity implements OnClickListener {
      * <b>Achtung:</b> Laufzeit wächst kubisch mit Wert von <i>inputParameter</i>!
      *
      * @param inputParameter Zahl, von der die dritte Potenz berechnet werden soll.
-     *
      */
     protected long berechnung(int inputParameter) {
+
         long result = 0;
 
         for (int i = 0; i < inputParameter; i++)
@@ -167,9 +168,9 @@ public class MainActivity extends Activity implements OnClickListener {
      *                     <i>false</i> wenn sie ausgeschaltet werden sollen.
      */
     protected void setzeButtonStatus(boolean eingschaltet) {
-        _button1.setEnabled(eingschaltet);
-        _button2.setEnabled(eingschaltet);
-        _button3.setEnabled(eingschaltet);
+        _button1.setEnabled( eingschaltet );
+        _button2.setEnabled( eingschaltet );
+        _button3.setEnabled( eingschaltet );
     }
 
 
@@ -304,6 +305,7 @@ public class MainActivity extends Activity implements OnClickListener {
          */
         @Override
         protected void onPostExecute(Long ergebnis) {
+            
             _textViewAnzeige.setText(
                     "Ergebnis in AsyncTask berechnet: " + ergebnis );
             setzeButtonStatus(true);
