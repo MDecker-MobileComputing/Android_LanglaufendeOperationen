@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -109,6 +110,8 @@ public class MainActivity extends Activity implements OnClickListener {
         setzeButtonStatus(false);
         _textViewAnzeige.setText("Berechnung für " + inputZahl + " gestartet ...");
 
+        keyboardEinklappen(view);
+
         if (view == _button1) {
 
             long ergebnis = berechnung(inputZahl);
@@ -181,6 +184,21 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     protected void showToast(String nachricht) {
         Toast.makeText(this, nachricht, Toast.LENGTH_LONG).show();
+    }
+
+
+    /**
+     * Virtuelles Keyboard wieder "einklappen".
+     * Lösung nach
+     * <a href="https://stackoverflow.com/a/17789187/1364368">https://stackoverflow.com/a/17789187/1364368</a>
+     *
+     * @param view UI-Element, von dem Keyboard eingeblendet wurde.
+     */
+    public void keyboardEinklappen(View view) {
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
@@ -305,7 +323,7 @@ public class MainActivity extends Activity implements OnClickListener {
          */
         @Override
         protected void onPostExecute(Long ergebnis) {
-            
+
             _textViewAnzeige.setText(
                     "Ergebnis in AsyncTask berechnet: " + ergebnis );
             setzeButtonStatus(true);
