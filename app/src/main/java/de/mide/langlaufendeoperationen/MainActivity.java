@@ -58,26 +58,29 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
     /**
-     * Lifecycle-Method für Setup der UI.
+     * Lifecycle-Method für Setup der UI:
+     * Lädt Layout-Datei und füllt die Referenzen auf UI-Elemente in die
+     * zugehörigen Member-Variablen.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setTitle("Lange Berechnung");
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_main );
+
+        setTitle( "Lange Berechnung" );
 
         // *** Referenzen auf einige Widgets abgreifen ***
-        _editTextInputParameter = (EditText) findViewById(R.id.textEditFuerInputParameter   );
-        _textViewAnzeige        = (TextView) findViewById(R.id.textViewZumAnzeigen          );
-        _button1                = (Button)   findViewById(R.id.buttonBerechnungImMainThread );
-        _button2                = (Button)   findViewById(R.id.buttonBerechnungInOwnThread  );
-        _button3                = (Button)   findViewById(R.id.buttonBerechnungInAsyncTask  );
+        _editTextInputParameter = findViewById( R.id.textEditFuerInputParameter   );
+        _textViewAnzeige        = findViewById( R.id.textViewZumAnzeigen          );
+        _button1                = findViewById( R.id.buttonBerechnungImMainThread );
+        _button2                = findViewById( R.id.buttonBerechnungInOwnThread  );
+        _button3                = findViewById( R.id.buttonBerechnungInAsyncTask  );
 
         // *** Event-Handler für Buttons definieren ***
-        _button1.setOnClickListener(this);
-        _button2.setOnClickListener(this);
-        _button3.setOnClickListener(this);
+        _button1.setOnClickListener( this );
+        _button2.setOnClickListener( this );
+        _button3.setOnClickListener( this );
 
         // Handler-Objekt erzeugen, das mit aktuellem Thread (=Main-Thread) verbunden ist;
         // wird in alternativer Implementierung der "run()"-Methode in Klasse MeinThread
@@ -87,10 +90,10 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
     /**
-     * Einzige Methode aus Interface OnClickListener.
-     * Event-Handler für alle drei Buttons!
+     * Einzige Methode aus Interface OnClickListener;
+     * Event-Handler-Methode für alle drei Buttons!
      *
-     * @param view Button, der das Event ausgelöst hat.
+     * @param view  Button, der das Event ausgelöst hat.
      */
     @Override
     public void onClick(View view) {
@@ -103,7 +106,9 @@ public class MainActivity extends Activity implements OnClickListener {
         }
 
         int inputZahl = Integer.parseInt(inputString);
-        Log.d(TAG4LOGGING, "Erwartetes Ergebnis: " + (int)Math.pow(inputZahl, 3));
+	    
+	long erwartetesErgebnis = (long) Math.pow(inputZahl, 3)
+        Log.d(TAG4LOGGING, "Erwartetes Ergebnis: " + erwartetesErgebnis);
 
 
         /* *** Eigentliche Berechnung durchführen *** */
@@ -147,7 +152,7 @@ public class MainActivity extends Activity implements OnClickListener {
      * <br>
      * <b>Achtung:</b> Laufzeit wächst kubisch mit Wert von <i>inputParameter</i>!
      *
-     * @param inputParameter Zahl, von der die dritte Potenz berechnet werden soll.
+     * @param inputParameter  Zahl, von der die dritte Potenz berechnet werden soll.
      */
     protected long berechnung(int inputParameter) {
 
@@ -165,12 +170,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
     /**
      * Aktiviert oder deaktiviert alle drei Buttons auf einmal
-     * (während die Berechnung durchgeführt wird).
+     * (alle Buttons sollen während der Berechnung deaktiviert werden).
      *
-     * @param eingschaltet <i>true</i> gdw. alle Buttons eingeschaltet werden sollen,
-     *                     <i>false</i> wenn sie ausgeschaltet werden sollen.
+     * @param eingschaltet  <code>true</code> gdw. alle Buttons eingeschaltet werden sollen,
+     *                      <code>false</code> wenn alle Buttons ausgeschaltet werden sollen.
      */
     protected void setzeButtonStatus(boolean eingschaltet) {
+
         _button1.setEnabled( eingschaltet );
         _button2.setEnabled( eingschaltet );
         _button3.setEnabled( eingschaltet );
@@ -180,7 +186,7 @@ public class MainActivity extends Activity implements OnClickListener {
     /**
      * Convenience-Methode: Zeigt <i>nachricht</i> mit einem langem Toast an.
      *
-     * @param nachricht Text, der mit Toast-Objekt dargestellt werden soll.
+     * @param nachricht  Text, der mit Toast-Objekt dargestellt werden soll.
      */
     protected void showToast(String nachricht) {
         Toast.makeText(this, nachricht, Toast.LENGTH_LONG).show();
@@ -188,11 +194,11 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
     /**
-     * Virtuelles Keyboard wieder "einklappen".
+     * Virtuelles Keyboard wieder "einklappen";
      * Lösung nach
-     * <a href="https://stackoverflow.com/a/17789187/1364368">https://stackoverflow.com/a/17789187/1364368</a>
+     * <a href="https://stackoverflow.com/a/17789187/1364368">https://stackoverflow.com/a/17789187/1364368</a>.
      *
-     * @param view UI-Element, von dem Keyboard eingeblendet wurde.
+     * @param view  UI-Element, von dem Keyboard eingeblendet wurde.
      */
     public void keyboardEinklappen(View view) {
 
@@ -227,7 +233,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
         /**
-         * Methode mit Code, der im Hintergrund-Thread ausgeführt wird.
+         * Methode mit Code, der im Hintergrund/Worker-Thread ausgeführt wird.
          * <br><br>
          *
          * Für Zeitmessung wird {@link System#currentTimeMillis()} statt
@@ -293,16 +299,26 @@ public class MainActivity extends Activity implements OnClickListener {
 		*/
     };
 
-
+    /* ***************************** */
     /* *** Start innere Klasse 2 *** */
+    /* ***************************** */	
+	
+    /**
+     * Eigene Unterklasse von {@link AsyncTask}; diese Klasse steht -- im Gegensatz
+     * zu {@link java.lang.Thread} -- nur Unter Android zur Verfügung und nicht
+     * in "normalem" Java.
+     */
     public class MeinAsyncTask extends AsyncTask<Integer, String, Long> {
 
         /**
-         * Diese Methode wird NICHT im Main-Thread ausgeführt.
-         * Die Argumente werden mit der execute()-Methode übergeben.
+         * Diese Methode wird NICHT im Main-Thread ausgeführt, sondern in einem
+	 * Hintergrund-/Worker-Thread.
+         * Die Argumente werden beim Aufruf der Methode <code>execute()</code>
+	 * übergeben.
          *
-         * @param params Muss genau ein Argument enthalten, nämlich die Zahl, von
-         *               der die dritte Potenz zu berechnen ist.
+         * @param params  Muss genau ein Argument enthalten, nämlich die Zahl, von
+         *                der die dritte Potenz zu berechnen ist; wird beim Aufruf
+	 *                der Methode <code>execute</code> übergeben.
          */
         @Override
         protected Long doInBackground(Integer... params) {
@@ -319,7 +335,7 @@ public class MainActivity extends Activity implements OnClickListener {
          * wird im Main-Thread ausgeführt, kann also auf UI-Elemente
          * zugreifen
          *
-         * @param ergebnis Ergebnis der Berechnung, das auf der UI dargestellt werden soll.
+         * @param ergebnis  Ergebnis der Berechnung, das auf der UI dargestellt werden soll.
          */
         @Override
         protected void onPostExecute(Long ergebnis) {
