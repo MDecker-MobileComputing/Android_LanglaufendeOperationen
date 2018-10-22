@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         int inputZahl = Integer.parseInt(inputString);
 	    
-	long erwartetesErgebnis = (long) Math.pow(inputZahl, 3)
+	    long erwartetesErgebnis = (long) Math.pow(inputZahl, 3); // "inputZahl hoch 3"
         Log.d(TAG4LOGGING, "Erwartetes Ergebnis: " + erwartetesErgebnis);
 
 
@@ -153,6 +153,8 @@ public class MainActivity extends Activity implements OnClickListener {
      * <b>Achtung:</b> Laufzeit wächst kubisch mit Wert von <i>inputParameter</i>!
      *
      * @param inputParameter  Zahl, von der die dritte Potenz berechnet werden soll.
+     *
+     * @return  Berechnungsergebnis (<i>inputParameter</i> hoch 3)
      */
     protected long berechnung(int inputParameter) {
 
@@ -222,6 +224,7 @@ public class MainActivity extends Activity implements OnClickListener {
         /** Zahl, von der die dritte Potenz berechnet werden soll. */
         protected int __inputZahl;
 
+
         /**
          * Konstruktor; kopiert nur das Argument in eine Member-Variable der inneren klasse.
          *
@@ -247,8 +250,11 @@ public class MainActivity extends Activity implements OnClickListener {
         public void run() {
 
             long zeitpunktStart = System.nanoTime();
+
             final long ergebnis = berechnung(__inputZahl);
+
             long zeitpunktEnde  = System.nanoTime();
+
 
             final long laufzeitSekunden =
                     (zeitpunktEnde - zeitpunktStart)/ ( 1000 * 1000 * 1000 );
@@ -304,7 +310,7 @@ public class MainActivity extends Activity implements OnClickListener {
     /* ***************************** */	
 	
     /**
-     * Eigene Unterklasse von {@link AsyncTask}; diese Klasse steht -- im Gegensatz
+     * Eigene Unterklasse von {@link AsyncTask}; diese Klasse steht –- im Gegensatz
      * zu {@link java.lang.Thread} -- nur Unter Android zur Verfügung und nicht
      * in "normalem" Java.
      */
@@ -312,19 +318,20 @@ public class MainActivity extends Activity implements OnClickListener {
 
         /**
          * Diese Methode wird NICHT im Main-Thread ausgeführt, sondern in einem
-	 * Hintergrund-/Worker-Thread.
+    	 * Hintergrund-/Worker-Thread.
          * Die Argumente werden beim Aufruf der Methode <code>execute()</code>
-	 * übergeben.
+	     * übergeben.
          *
          * @param params  Muss genau ein Argument enthalten, nämlich die Zahl, von
          *                der die dritte Potenz zu berechnen ist; wird beim Aufruf
-	 *                der Methode <code>execute</code> übergeben.
+    	 *                der Methode <code>execute</code> übergeben.
          */
         @Override
         protected Long doInBackground(Integer... params) {
 
             int input_zahl = params[0];
-            final long ergebnis = berechnung(input_zahl);
+
+            final long ergebnis = berechnung( input_zahl );
 
             return ergebnis;
         }
