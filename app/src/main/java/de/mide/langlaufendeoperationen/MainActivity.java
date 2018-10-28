@@ -144,17 +144,19 @@ public class MainActivity extends Activity implements OnClickListener {
 
     /**
      * Berechnet <i>"inputParameter hoch drei"</i> auf bewusst ineffiziente Weise,
-     * nämlich mit einer dreifach gestaffelten Schleife.<br/>
-     * Je größer der Wert <i>inputParameter</i> ist, desto länger dauert die Berechnung.
-     * Der Speicherplatz steigt aber <i>NICHT</i> mit <i>inputParameter</i>.
+     * nämlich mit einer dreifach gestaffelten Schleife.<br>
+     * Je größer der Wert <code>inputParameter</code> ist, desto länger dauert die Berechnung.
+     * Der Speicherplatz steigt aber <i>NICHT</i> mit <code>inputParameter</code>.
      * Normalerweise würde man für diese Berechnung die Methode {@link Math#pow(double, double)}
      * verwenden.
-     * <br>
-     * <b>Achtung:</b> Laufzeit wächst kubisch mit Wert von <i>inputParameter</i>!
+     * <br><br>
+     *
+     * <b>Achtung:</b> Laufzeit wächst kubisch mit Wert von <code>inputParameter</code>!
      *
      * @param inputParameter  Zahl, von der die dritte Potenz berechnet werden soll.
      *
-     * @return  Berechnungsergebnis (<i>inputParameter</i> hoch 3)
+     * @return  Berechnungsergebnis (<code>inputParameter</code> hoch 3),
+     *          z.B. "8" für <code>inputParameter=2</code>.
      */
     protected long berechnung(int inputParameter) {
 
