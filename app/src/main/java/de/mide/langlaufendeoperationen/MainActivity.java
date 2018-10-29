@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         int inputZahl = Integer.parseInt(inputString);
 	    
-	    long erwartetesErgebnis = (long) Math.pow(inputZahl, 3); // "inputZahl hoch 3"
+	long erwartetesErgebnis = (long) Math.pow(inputZahl, 3); // "inputZahl hoch 3"
         Log.d(TAG4LOGGING, "Erwartetes Ergebnis: " + erwartetesErgebnis);
 
 
@@ -163,10 +163,12 @@ public class MainActivity extends Activity implements OnClickListener {
         long result = 0;
 
         for (int i = 0; i < inputParameter; i++)
-            for (int j = 0; j < inputParameter; j++)
+            for (int j = 0; j < inputParameter; j++) {
                 for (int k = 0; k < inputParameter; k++) {
                     result += 1;
                 }
+	    }
+        }
 
         return result;
     }
@@ -193,6 +195,7 @@ public class MainActivity extends Activity implements OnClickListener {
      * @param nachricht  Text, der mit Toast-Objekt dargestellt werden soll.
      */
     protected void showToast(String nachricht) {
+	    
         Toast.makeText(this, nachricht, Toast.LENGTH_LONG).show();
     }
 
@@ -228,7 +231,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
         /**
-         * Konstruktor; kopiert nur das Argument in eine Member-Variable der inneren klasse.
+         * Konstruktor; kopiert nur das Argument in eine Member-Variable der inneren Klasse.
          *
          * @param inputZahl Zahl, von der die dritte Potenz berechnet werden soll
          */
@@ -253,7 +256,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
             long zeitpunktStart = System.nanoTime();
 
-            final long ergebnis = berechnung(__inputZahl);
+            final long ergebnis = berechnung( __inputZahl );
 
             long zeitpunktEnde  = System.nanoTime();
 
@@ -322,7 +325,7 @@ public class MainActivity extends Activity implements OnClickListener {
          * Diese Methode wird NICHT im Main-Thread ausgeführt, sondern in einem
     	 * Hintergrund-/Worker-Thread.
          * Die Argumente werden beim Aufruf der Methode <code>execute()</code>
-	     * übergeben.
+	 * übergeben.
          *
          * @param params  Muss genau ein Argument enthalten, nämlich die Zahl, von
          *                der die dritte Potenz zu berechnen ist; wird beim Aufruf
@@ -351,6 +354,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
             _textViewAnzeige.setText(
                     "Ergebnis in AsyncTask berechnet: " + ergebnis );
+
             setzeButtonStatus(true);
         }
 
