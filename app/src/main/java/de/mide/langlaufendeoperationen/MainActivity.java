@@ -162,12 +162,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
         long result = 0;
 
-        for (int i = 0; i < inputParameter; i++)
+        for (int i = 0; i < inputParameter; i++){
             for (int j = 0; j < inputParameter; j++) {
                 for (int k = 0; k < inputParameter; k++) {
                     result += 1;
                 }
-	    }
+	        }
         }
 
         return result;
