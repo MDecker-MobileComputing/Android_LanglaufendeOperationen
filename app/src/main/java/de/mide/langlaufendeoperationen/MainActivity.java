@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         int inputZahl = Integer.parseInt(inputString);
 	    
-	long erwartetesErgebnis = (long) Math.pow(inputZahl, 3); // "inputZahl hoch 3"
+	    long erwartetesErgebnis = (long) Math.pow(inputZahl, 3); // "inputZahl hoch 3"
         Log.d(TAG4LOGGING, "Erwartetes Ergebnis: " + erwartetesErgebnis);
 
 
@@ -325,7 +325,7 @@ public class MainActivity extends Activity implements OnClickListener {
          * Diese Methode wird NICHT im Main-Thread ausgeführt, sondern in einem
     	 * Hintergrund-/Worker-Thread.
          * Die Argumente werden beim Aufruf der Methode <code>execute()</code>
-	 * übergeben.
+	     * übergeben.
          *
          * @param params  Muss genau ein Argument enthalten, nämlich die Zahl, von
          *                der die dritte Potenz zu berechnen ist; wird beim Aufruf
@@ -343,9 +343,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
         /**
-         * Wird nach Abarbeitung von doInBackground() aufgerufen,
-         * wird im Main-Thread ausgeführt, kann also auf UI-Elemente
-         * zugreifen
+         * Wird nach Abarbeitung von doInBackground() aufgerufen, wird im
+         * Main-Thread ausgeführt, kann also auf UI-Elemente zugreifen.
          *
          * @param ergebnis  Ergebnis der Berechnung, das auf der UI dargestellt werden soll.
          */
