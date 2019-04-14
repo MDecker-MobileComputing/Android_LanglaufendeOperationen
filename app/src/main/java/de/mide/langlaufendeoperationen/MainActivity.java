@@ -236,6 +236,7 @@ public class MainActivity extends Activity implements OnClickListener {
          * @param inputZahl Zahl, von der die dritte Potenz berechnet werden soll
          */
         public MeinThread(int inputZahl) {
+
             __inputZahl = inputZahl;
         }
 
