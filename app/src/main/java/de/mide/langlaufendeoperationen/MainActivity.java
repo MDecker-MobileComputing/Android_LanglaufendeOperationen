@@ -70,6 +70,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         setTitle( "Lange Berechnung" );
 
+
         // *** Referenzen auf einige Widgets abgreifen ***
         _editTextInputParameter = findViewById( R.id.textEditFuerInputParameter   );
         _textViewAnzeige        = findViewById( R.id.textViewZumAnzeigen          );
@@ -101,6 +102,7 @@ public class MainActivity extends Activity implements OnClickListener {
         /* *** Zuerst wird überprüft, ob zulässige Zahl eingegeben *** */
         String inputString = _editTextInputParameter.getText().toString();
         if (inputString == null || inputString.trim().length() == 0) {
+
             showToast("Bitte Zahl in das Textfeld eingeben!");
             return;
         }
@@ -162,9 +164,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
         long result = 0;
 
+
         for (int i = 0; i < inputParameter; i++){
+
             for (int j = 0; j < inputParameter; j++) {
+
                 for (int k = 0; k < inputParameter; k++) {
+
                     result += 1;
                 }
 	        }
@@ -268,6 +274,7 @@ public class MainActivity extends Activity implements OnClickListener {
             Runnable meinRunnable = new Runnable() {
                 @Override
                 public void run() {
+
                     _textViewAnzeige.setText(
                             "Ergebnis berechnet: " + ergebnis +
                                     "\nLaufzeit: " + laufzeitSekunden + " secs");
