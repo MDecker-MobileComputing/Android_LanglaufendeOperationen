@@ -269,7 +269,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
             final long laufzeitSekunden =
-                    (zeitpunktEnde - zeitpunktStart)/ ( 1000 * 1000 * 1000 );
+                               (zeitpunktEnde - zeitpunktStart)/ ( 1000 * 1000 * 1000 );
 
             Runnable meinRunnable = new Runnable() {
                 @Override
