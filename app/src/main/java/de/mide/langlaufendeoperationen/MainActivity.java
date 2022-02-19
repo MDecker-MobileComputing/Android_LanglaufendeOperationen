@@ -313,7 +313,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				}
 			};
 
-            boolean erfolg = _meinHandler.post(meinRunnable);
+                        boolean erfolg = _meinHandler.post(meinRunnable);
 		}
 		*/
     };
@@ -324,7 +324,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
     /**
      * Eigene Unterklasse von {@link AsyncTask}; diese Klasse steht –- im Gegensatz
-     * zu {@link java.lang.Thread} -- nur Unter Android zur Verfügung und nicht
+     * zu {@link java.lang.Thread} -- nur unter Android zur Verfügung und nicht
      * in "normalem" Java.
      */
     public class MeinAsyncTask extends AsyncTask<Integer, String, Long> {
@@ -333,7 +333,7 @@ public class MainActivity extends Activity implements OnClickListener {
          * Diese Methode wird NICHT im Main-Thread ausgeführt, sondern in einem
     	 * Hintergrund-/Worker-Thread.
          * Die Argumente werden beim Aufruf der Methode <code>execute()</code>
-	     * übergeben.
+	 * übergeben.
          *
          * @param params  Muss genau ein Argument enthalten, nämlich die Zahl, von
          *                der die dritte Potenz zu berechnen ist; wird beim Aufruf
