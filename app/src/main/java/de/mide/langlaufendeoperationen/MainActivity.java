@@ -1,15 +1,17 @@
 package de.mide.langlaufendeoperationen;
 
+import static android.app.Activity.INPUT_METHOD_SERVICE;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,24 +39,11 @@ public class MainActivity extends Activity implements OnClickListener {
     /** Textview unten auf Activity zur Anzeige Ergebnis oder sonstige Dinge. */
     protected TextView _textViewAnzeige = null;
 
-    /** Referenz auf Button für Berechnung im UI-Thread. */
-    protected Button _button1 = null;
-
-    /** Referenz auf Button für Berechnung in eigenem Thread. */
-    protected Button _button2 = null;
-
     /** Referenz auf Button für Berechnung in AsyncTask. */
-    protected Button _button3 = null;
+    protected Button _button = null;
 
-    /**
-     * Instanz von Handler-Objekt, die im Main-Thread erzeugt wird, so dass mit der Methode
-     * {@link android.os.Handler#post(Runnable)} dieser Instanz ein
-     * {@link java.lang.Runnable}-Objekt übergeben werden kann, das im Main-Thread ausgeführt
-     * wird (für Manipulationen auf UI aus einem Hintergrund-Thread heraus).
-     * Wird für alternative Implementierung der Methode "run()" in Klasse {@link MeinThread}
-     * verwendet.
-     */
-    protected Handler _meinHandler = null;
+    /** Element für prozentuale Fortschrittsanzeige (von 0% bis 100%). */
+    protected ProgressBar _progressBar = null;
 
 
     /**
@@ -72,27 +61,18 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
         // *** Referenzen auf einige Widgets abgreifen ***
-        _editTextInputParameter = findViewById( R.id.textEditFuerInputParameter   );
-        _textViewAnzeige        = findViewById( R.id.textViewZumAnzeigen          );
-        _button1                = findViewById( R.id.buttonBerechnungImMainThread );
-        _button2                = findViewById( R.id.buttonBerechnungInOwnThread  );
-        _button3                = findViewById( R.id.buttonBerechnungInAsyncTask  );
+        _editTextInputParameter = findViewById( R.id.textEditFuerInputParameter  );
+        _textViewAnzeige        = findViewById( R.id.textViewZumAnzeigen         );
+        _button                 = findViewById( R.id.buttonBerechnungInAsyncTask );
+        _progressBar            = findViewById( R.id.fortschrittsanzeige         );
 
-        // *** Event-Handler für Buttons definieren ***
-        _button1.setOnClickListener( this );
-        _button2.setOnClickListener( this );
-        _button3.setOnClickListener( this );
-
-        // Handler-Objekt erzeugen, das mit aktuellem Thread (=Main-Thread) verbunden ist;
-        // wird in alternativer Implementierung der "run()"-Methode in Klasse MeinThread
-        // verwendet.
-        _meinHandler = new Handler();
+        // *** Event-Handler für Button definieren ***
+        _button.setOnClickListener( this );
     }
 
 
     /**
-     * Einzige Methode aus Interface OnClickListener;
-     * Event-Handler-Methode für alle drei Buttons!
+     * Einzige Methode aus Interface OnClickListener; Event-Handler-Methode für alle drei Buttons!
      *
      * @param view  Button, der das Event ausgelöst hat.
      */
@@ -114,33 +94,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
         /* *** Eigentliche Berechnung durchführen *** */
-        setzeButtonStatus(false);
+        _button.setEnabled(false);
         _textViewAnzeige.setText("Berechnung für " + inputZahl + " gestartet ...");
 
         keyboardEinklappen(view);
 
-        if (view == _button1) {
-
-            long ergebnis = berechnung(inputZahl);
-            _textViewAnzeige.setText("Ergebnis berechnet: " + ergebnis);
-            setzeButtonStatus(true);
-
-        } else if (view == _button2) {
-
-            MeinThread thread = new MeinThread(inputZahl);
-            thread.start();
-
-        } else if (view == _button3) {
-
-            MeinAsyncTask mat = new MeinAsyncTask();
-            mat.execute(inputZahl);
-
-        } else {
-
-            String errorMessage = "Interner Fehler: Event-Handler-Methode für unerwartetes View aufgerufen: " + view;
-            Log.e(TAG4LOGGING, errorMessage);
-            showToast(errorMessage);
-        }
+        MeinAsyncTask mat = new MeinAsyncTask();
+        mat.execute(inputZahl);
     }
 
 
@@ -179,22 +139,6 @@ public class MainActivity extends Activity implements OnClickListener {
         return result;
     }
 
-
-    /**
-     * Aktiviert oder deaktiviert alle drei Buttons auf einmal
-     * (alle Buttons sollen während der Berechnung deaktiviert werden).
-     *
-     * @param eingschaltet  <code>true</code> gdw. alle Buttons eingeschaltet werden sollen,
-     *                      <code>false</code> wenn alle Buttons ausgeschaltet werden sollen.
-     */
-    protected void setzeButtonStatus(boolean eingschaltet) {
-
-        _button1.setEnabled( eingschaltet );
-        _button2.setEnabled( eingschaltet );
-        _button3.setEnabled( eingschaltet );
-    }
-
-
     /**
      * Convenience-Methode: Zeigt <i>nachricht</i> mit einem langem Toast an.
      *
@@ -215,116 +159,19 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     public void keyboardEinklappen(View view) {
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
     /* **************************** */
-    /* *** Start innere Klassen *** */
+    /* *** Start innere Klasse  *** */
     /* **************************** */
-
-    /**
-     * Innere Klasse; enthält alternative Implementierung der run()-Methode (auskommentiert),
-     * die ein {@link android.os.Handler}-Objekt verwendet, um ein {@link java.lang.Runnable}
-     * mit Code im UI-Thread auszuführen.
-     */
-    protected class MeinThread extends Thread {
-
-        /** Zahl, von der die dritte Potenz berechnet werden soll. */
-        protected int __inputZahl;
-
-
-        /**
-         * Konstruktor; kopiert nur das Argument in eine Member-Variable der inneren Klasse.
-         *
-         * @param inputZahl Zahl, von der die dritte Potenz berechnet werden soll
-         */
-        public MeinThread(int inputZahl) {
-
-            __inputZahl = inputZahl;
-        }
-
-
-        /**
-         * Methode mit Code, der im Hintergrund/Worker-Thread ausgeführt wird.
-         * <br><br>
-         *
-         * Für Zeitmessung wird {@link System#currentTimeMillis()} statt
-         * {@link System#nanoTime()} verwendet, weil diese Methode u.a.
-         * nicht durch Systemzeitänderungen (z.B. Synchronisierung der
-         * Zeit mit NTP-Server) beeinflusst wird (siehe auch
-         * <a href="http://bit.ly/2KfTC3N">http://bit.ly/2KfTC3N</a> ).
-         * Eine Sekunde hat 10^9 Nano-Sekunden.
-         */
-        @Override
-        public void run() {
-
-            long zeitpunktStart = System.nanoTime();
-
-            final long ergebnis = berechnung( __inputZahl );
-
-            long zeitpunktEnde  = System.nanoTime();
-
-
-            final long laufzeitSekunden =
-                               (zeitpunktEnde - zeitpunktStart)/ ( 1000 * 1000 * 1000 );
-
-            Runnable meinRunnable = new Runnable() {
-                @Override
-                public void run() {
-
-                    _textViewAnzeige.setText(
-                            "Ergebnis berechnet: " + ergebnis +
-                                    "\nLaufzeit: " + laufzeitSekunden + " secs");
-                    setzeButtonStatus(true);
-                }
-            };
-
-            // Runnable-Objekt zur späteren Ausführung an den Main-Thread übergeben
-            _textViewAnzeige.post( meinRunnable );
-        }
-
-
-        /**
-         * Alternative Variante der run()-Methode.
-         * Verwendet Handler-Objekt, um Runnable-Objekt im UI-Thread
-         * ausführen zu lassen.
-         */
-        /*
-		@Override
-		public void run() {
-
-			long zeitpunktStart = System.nanoTime();
-			final long ergebnis = berechnung(__inputZahl);
-			long zeitpunktEnde  = System.nanoTime();
-
-			final long laufzeitSekunden =
-                          (zeitpunktEnde - zeitpunktStart)/ ( 1000 * 1000 * 1000 );
-
-			Runnable meinRunnable = new Runnable() {
-				@Override
-				public void run() {
-					_textViewAnzeige.setText(
-							"Ergebnis berechnet: " + ergebnis +
-									"\nLaufzeit: " + laufzeitSekunden + " secs");
-					setzeButtonStatus(true);
-				}
-			};
-
-            boolean erfolg = _meinHandler.post(meinRunnable);
-		}
-		*/
-    };
-
-    /* ***************************** */
-    /* *** Start innere Klasse 2 *** */
-    /* ***************************** */	
 	
     /**
      * Eigene Unterklasse von {@link AsyncTask}; diese Klasse steht –- im Gegensatz
-     * zu {@link java.lang.Thread} -- nur Unter Android zur Verfügung und nicht
+     * zu {@link java.lang.Thread} -- nur unter Android zur Verfügung und nicht
      * in "normalem" Java.
      */
     public class MeinAsyncTask extends AsyncTask<Integer, String, Long> {
@@ -362,12 +209,12 @@ public class MainActivity extends Activity implements OnClickListener {
             _textViewAnzeige.setText(
                     "Ergebnis in AsyncTask berechnet: " + ergebnis );
 
-            setzeButtonStatus(true);
+            _button.setEnabled(true);
         }
 
     };
 
-    /* **************************** */
-    /* *** Ende innere Klassen  *** */
-    /* **************************** */
+    /* *************************** */
+    /* *** Ende innere Klasse  *** */
+    /* *************************** */
 };
