@@ -105,41 +105,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
     /**
-     * Berechnet <i>"inputParameter hoch drei"</i> auf bewusst ineffiziente Weise,
-     * nämlich mit einer dreifach gestaffelten Schleife.<br>
-     * Je größer der Wert <code>inputParameter</code> ist, desto länger dauert die Berechnung.
-     * Der Speicherplatz steigt aber <i>NICHT</i> mit <code>inputParameter</code>.
-     * Normalerweise würde man für diese Berechnung die Methode {@link Math#pow(double, double)}
-     * verwenden.
-     * <br><br>
-     *
-     * <b>Achtung:</b> Laufzeit wächst kubisch mit Wert von <code>inputParameter</code>!
-     *
-     * @param inputParameter  Zahl, von der die dritte Potenz berechnet werden soll.
-     *
-     * @return  Berechnungsergebnis (<code>inputParameter</code> hoch 3),
-     *          z.B. "8" für <code>inputParameter=2</code>.
-     */
-    protected long berechnung(int inputParameter) {
-
-        long result = 0;
-
-
-        for (int i = 0; i < inputParameter; i++){
-
-            for (int j = 0; j < inputParameter; j++) {
-
-                for (int k = 0; k < inputParameter; k++) {
-
-                    result += 1;
-                }
-	        }
-        }
-
-        return result;
-    }
-
-    /**
      * Convenience-Methode: Zeigt <i>nachricht</i> mit einem langem Toast an.
      *
      * @param nachricht  Text, der mit Toast-Objekt dargestellt werden soll.
@@ -189,9 +154,20 @@ public class MainActivity extends Activity implements OnClickListener {
         @Override
         protected Long doInBackground(Integer... params) {
 
-            int input_zahl = params[0];
+            int inputParameter = params[0];
 
-            final long ergebnis = berechnung( input_zahl );
+            long ergebnis = 0;
+
+            for (int i = 0; i < inputParameter; i++){
+
+                for (int j = 0; j < inputParameter; j++) {
+
+                    for (int k = 0; k < inputParameter; k++) {
+
+                        ergebnis += 1;
+                    }
+                }
+            }
 
             return ergebnis;
         }
