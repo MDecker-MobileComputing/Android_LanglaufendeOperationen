@@ -23,6 +23,7 @@ which shows how to display the progress of the calculation.
 <br>
 
 ----
+
 ## License ##
 
 See the [LICENSE file](LICENSE.md) for license rights and limitations (BSD 3-Clause License).
