@@ -18,6 +18,8 @@ which shows how to display the progress of the calculation.
 
 ## Screenshots ##
 
+<br>
+
 ![Screenshot 1](screenshot_1.png)  ![Screenshot 2](screenshot_2.png)
 
 <br>
@@ -26,4 +28,8 @@ which shows how to display the progress of the calculation.
 
 ## License ##
 
+<br>
+
 See the [LICENSE file](LICENSE.md) for license rights and limitations (BSD 3-Clause License).
+
+<br>
