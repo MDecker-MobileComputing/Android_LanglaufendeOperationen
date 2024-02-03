@@ -1,5 +1,6 @@
-package de.mide.langlaufende;
+package de.mide.android.langlaufende;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -215,7 +216,7 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     public void keyboardEinklappen(View view) {
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
@@ -266,7 +267,6 @@ public class MainActivity extends Activity implements OnClickListener {
             final long ergebnis = berechnung( __inputZahl );
 
             long zeitpunktEnde  = System.nanoTime();
-
 
             final long laufzeitSekunden =
                     (zeitpunktEnde - zeitpunktStart)/ ( 1000 * 1000 * 1000 );

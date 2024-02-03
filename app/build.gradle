@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace 'de.mide.langlaufende'
-    compileSdk 33
+    namespace 'de.mide.android.langlaufende'
+    compileSdk 34
 
     defaultConfig {
-        applicationId "de.mide.langlaufende"
+        applicationId "de.mide.android.langlaufende"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -30,8 +30,8 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
