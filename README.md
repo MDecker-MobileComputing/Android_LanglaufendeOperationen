@@ -1,5 +1,7 @@
 # Android-App "Langlaufende Operation" #
 
+<br>
+
 App shows how to implement a long running operation so that it does not block the main thread 
 (prevention of error message "Application not Responding").
 
