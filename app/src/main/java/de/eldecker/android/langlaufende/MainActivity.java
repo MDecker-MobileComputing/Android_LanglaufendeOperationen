@@ -1,6 +1,5 @@
-package de.mide.android.langlaufende;
+package de.eldecker.android.langlaufende;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package de.mide.android.langlaufende;
+package de.eldecker.android.langlaufende;
 
 import org.junit.Test;
 
